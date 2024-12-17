@@ -64,3 +64,7 @@ func (c *Core) FindRouteByRequest(requeest *http.Request) ControllerHandler {
 
 	return nil
 }
+
+func (c *Core) Group(prefix string) IGroup {
+	return NewGroup(prefix, c)
+}

@@ -22,6 +22,10 @@ func newNode() *node {
 }
 
 func (n *node) filterChild(segment string) []*node {
+	if isWildSegment(segment) {
+		return n.childs
+	}
+
 	var childs []*node
 	for _, node := range n.childs {
 		if node.isWildSegment || node.segment == segment {
@@ -40,7 +44,7 @@ func (n *node) matchNode(uri string) *node {
 		return nil
 	}
 
-	if len(childs) == 1 {
+	if len(segments) == 1 {
 		for _, c := range childs {
 			if c.isLast {
 				return c
