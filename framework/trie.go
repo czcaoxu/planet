@@ -13,7 +13,7 @@ type node struct {
 	isLast        bool   // uri的终点，表示一个完整的uri
 	segment       string // uri
 	isWildSegment bool
-	handler       ControllerHandler
+	handler       []ControllerHandler
 	childs        []*node
 }
 
@@ -72,7 +72,7 @@ func NewTree() *Tree {
 	return &Tree{root: newNode()}
 }
 
-func (t *Tree) AddRouter(uri string, handler ControllerHandler) error {
+func (t *Tree) AddRouter(uri string, handlers []ControllerHandler) error {
 	root := t.root
 	if root.matchNode(uri) != nil {
 		return errors.New("route exits: " + uri)
@@ -94,7 +94,7 @@ func (t *Tree) AddRouter(uri string, handler ControllerHandler) error {
 			currentNode.segment = segment
 			if index == len(segments)-1 {
 				currentNode.isLast = true
-				currentNode.handler = handler
+				currentNode.handler = handlers
 			}
 			if isWildSegment(segment) {
 				currentNode.isWildSegment = true
@@ -107,7 +107,7 @@ func (t *Tree) AddRouter(uri string, handler ControllerHandler) error {
 	return nil
 }
 
-func (t *Tree) FindHandler(uri string) ControllerHandler {
+func (t *Tree) FindHandler(uri string) []ControllerHandler {
 	node := t.root.matchNode(uri)
 	if node != nil {
 		return node.handler

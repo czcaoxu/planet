@@ -16,6 +16,9 @@ type Context struct {
 	hasResponded bool
 
 	ctx context.Context
+
+	handlers []ControllerHandler
+	index    int
 }
 
 func NewContext(responseWriter http.ResponseWriter, request *http.Request) *Context {
@@ -24,9 +27,14 @@ func NewContext(responseWriter http.ResponseWriter, request *http.Request) *Cont
 		responseWriter: responseWriter,
 		ctx:            nil,
 		writerMux:      new(sync.Mutex),
+		index:          -1,
 	}
 
 	return ctx
+}
+
+func (ctx *Context) GetRequest() *http.Request {
+	return ctx.request
 }
 
 func (ctx *Context) WriterMux() *sync.Mutex {
@@ -72,4 +80,19 @@ func (ctx *Context) Json(statusCode int, obj interface{}) error {
 	_, err = ctx.responseWriter.Write(byt)
 	ctx.hasResponded = true
 	return err
+}
+
+func (ctx *Context) SetHandlers(handlers []ControllerHandler) {
+	ctx.handlers = handlers
+}
+
+func (ctx *Context) Next() error {
+	ctx.index++
+	if ctx.index < len(ctx.handlers) {
+		if err := ctx.handlers[ctx.index](ctx); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
