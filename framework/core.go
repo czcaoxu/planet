@@ -58,7 +58,7 @@ func (c *Core) ServeHTTP(response http.ResponseWriter, request *http.Request) {
 	ctx.SetHandlers(handlers)
 
 	if err := ctx.Next(); err != nil {
-		ctx.Json(500, "Internal error")
+		ctx.JsonWithStatusCode(500, "Internal error")
 	}
 }
 

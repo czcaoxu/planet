@@ -19,6 +19,8 @@ type Context struct {
 
 	handlers []ControllerHandler
 	index    int
+
+	params map[string]string
 }
 
 func NewContext(responseWriter http.ResponseWriter, request *http.Request) *Context {
@@ -62,7 +64,7 @@ func (ctx *Context) Value(key interface{}) interface{} {
 	return ctx.BaseContext().Value(key)
 }
 
-func (ctx *Context) Json(statusCode int, obj interface{}) error {
+func (ctx *Context) JsonWithStatusCode(statusCode int, obj interface{}) error {
 	ctx.WriterMux().Lock()
 	defer ctx.WriterMux().Unlock()
 	if ctx.HasResponded() {

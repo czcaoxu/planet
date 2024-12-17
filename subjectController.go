@@ -6,26 +6,26 @@ import (
 )
 
 func SubjectGetController(c *framework.Context) error {
-	c.Json(http.StatusOK, "Subject Get")
+	c.JsonWithStatusCode(http.StatusOK, "Subject Get")
 	return nil
 }
 
 func SubjectPutController(c *framework.Context) error {
-	c.Json(http.StatusOK, "Subject Put")
+	c.JsonWithStatusCode(http.StatusOK, "Subject Put")
 	return nil
 }
 
 func SubjectDelController(c *framework.Context) error {
-	c.Json(http.StatusOK, "Subject Delete")
+	c.JsonWithStatusCode(http.StatusOK, "Subject Delete")
 	return nil
 }
 
 func SubjectListController(c *framework.Context) error {
-	c.Json(http.StatusOK, "Subject List")
+	c.JsonWithStatusCode(http.StatusOK, "Subject List")
 	return nil
 }
 
 func SubjectNameController(c *framework.Context) error {
-	c.Json(http.StatusOK, "Subject name")
+	c.JsonWithStatusCode(http.StatusOK, "Subject name")
 	return nil
 }

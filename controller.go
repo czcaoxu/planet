@@ -27,7 +27,7 @@ func FoolControllerHandler(ctx *framework.Context) error {
 
 		// test context time out
 		time.Sleep(10 * time.Millisecond)
-		ctx.Json(200, "OK")
+		ctx.JsonWithStatusCode(200, "OK")
 		finish <- struct{}{}
 
 	}()
@@ -37,10 +37,10 @@ func FoolControllerHandler(ctx *framework.Context) error {
 		fmt.Println("Finish")
 	case p := <-panicChan:
 		log.Println(p)
-		ctx.Json(500, "panic")
+		ctx.JsonWithStatusCode(500, "panic")
 	case <-durationCtx.Done():
 		fmt.Println("Time Out")
-		ctx.Json(500, "time out")
+		ctx.JsonWithStatusCode(500, "time out")
 	}
 
 	return nil

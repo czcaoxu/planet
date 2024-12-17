@@ -11,7 +11,7 @@ func Recovery() framework.ControllerHandler {
 		defer func() {
 			if err := recover(); err != nil {
 				log.Fatalf("Panic %v\n", err)
-				c.Json(500, err)
+				c.JsonWithStatusCode(500, err)
 			}
 		}()
 
